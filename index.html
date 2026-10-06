@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu Painel de Tarefas - SENAI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="cartao-aplicacao">
+        <header class="cabecalho-aplicacao">
+            <img class="capa" src="capa.webp" alt="" aria-hidden="true">
+            <button class="botao-icone" id="botao-alterar-tema" aria-label="Alternar tema claro/escuro" title="Alternar tema">
+                <i class="fa-solid fa-moon"></i>
+            </button>
+            <div class="perfil">
+                <img class="avatar" src="avatar.webp" alt="Foto de perfil">
+                <h1>Minhas Tarefas ✨</h1>
+            </div>
+        </header>
+
+        <div class="caixa-entrada">
+            <input type="text" id="campo-tarefa" placeholder="O que vamos fazer hoje?..." maxlength="40" autocomplete="off">
+            <button class="botao-principal" id="botao-adicionar">
+                <i class="fa-solid fa-plus"></i> Adicionar
+            </button>
+        </div>
+
+        <div class="linha-prazo">
+            <label for="campo-prazo"><i class="fa-regular fa-calendar"></i> Prazo (opcional)</label>
+            <input type="date" id="campo-prazo">
+        </div>
+
+        <p class="mensagem-erro" id="mensagem-erro" role="alert" hidden></p>
+
+        <div class="progresso">
+            <div class="progresso-trilho"><div class="progresso-barra" id="barra-progresso"></div></div>
+            <span id="texto-progresso">0% concluído</span>
+        </div>
+
+        <div class="filtros" id="filtros">
+            <button class="filtro ativo" data-filtro="todas">Todas</button>
+            <button class="filtro" data-filtro="pendentes">Pendentes</button>
+            <button class="filtro" data-filtro="concluidas">Concluídas</button>
+        </div>
+
+        <ul class="lista-tarefas" id="lista-tarefas">
+            <!-- As tarefas serão inseridas dinamicamente via JavaScript -->
+        </ul>
+
+        <footer class="rodape-aplicacao">
+            <span id="contador-tarefas">0 tarefas na lista</span>
+            <button class="botao-limpar" id="botao-limpar" hidden><i class="fa-solid fa-broom"></i> Limpar concluídas</button>
+        </footer>
+    </div>
+
+    <div class="aviso" id="aviso" role="status" hidden>
+        <span id="aviso-texto"></span>
+        <button id="botao-desfazer">Desfazer</button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

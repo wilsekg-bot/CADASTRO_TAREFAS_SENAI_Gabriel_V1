@@ -17,6 +17,9 @@
             <button class="botao-icone" id="botao-alterar-tema" aria-label="Alternar tema claro/escuro" title="Alternar tema">
                 <i class="fa-solid fa-moon"></i>
             </button>
+            <button class="botao-icone botao-novidades" id="botao-novidades" aria-label="Ver novidades do projeto" title="Novidades">
+                <i class="fa-solid fa-circle-info"></i>
+            </button>
             <div class="perfil">
                 <img class="avatar" src="avatar.webp" alt="Foto de perfil">
                 <h1>Minhas Tarefas ✨</h1>
@@ -33,6 +36,11 @@
         <div class="linha-prazo">
             <label for="campo-prazo"><i class="fa-regular fa-calendar"></i> Prazo (opcional)</label>
             <input type="date" id="campo-prazo">
+            <select id="campo-dificuldade" class="dif-media" aria-label="Grau de dificuldade">
+                <option value="facil">Fácil</option>
+                <option value="media" selected>Média</option>
+                <option value="dificil">Difícil</option>
+            </select>
         </div>
 
         <p class="mensagem-erro" id="mensagem-erro" role="alert" hidden></p>
@@ -62,6 +70,23 @@
         <span id="aviso-texto"></span>
         <button id="botao-desfazer">Desfazer</button>
     </div>
+
+    <dialog class="modal-novidades" id="modal-novidades" aria-labelledby="titulo-novidades">
+        <h2 id="titulo-novidades">✨ Novidades do projeto</h2>
+        <h3>Funcionalidades extras</h3>
+        <ul>
+            <li><strong>RF1 - Prazo da tarefa:</strong> data opcional, com aviso de "vence hoje" e "atrasada", e ordenação pelo prazo mais próximo.</li>
+            <li><strong>RF2 - Filtros e progresso:</strong> filtrar por todas/pendentes/concluídas e barra de % concluído.</li>
+            <li><strong>RF3 - Grau de dificuldade:</strong> fácil, média ou difícil, com etiqueta em degradê.</li>
+            <li><strong>Bônus:</strong> editar com duplo clique, desfazer exclusão e limpar concluídas.</li>
+        </ul>
+        <h3>Estética</h3>
+        <ul>
+            <li>Tema claro/escuro, capa, foto de perfil e paleta azul e dourada.</li>
+        </ul>
+        <p>Os dados ficam salvos no <code>localStorage</code>.</p>
+        <button class="botao-principal" id="botao-fechar-novidades">Fechar</button>
+    </dialog>
 
     <script src="script.js"></script>
 </body>

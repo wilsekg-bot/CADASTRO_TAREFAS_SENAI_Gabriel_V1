@@ -1,6 +1,8 @@
 // ===== Referências aos elementos da página =====
 const campoTarefa = document.getElementById('campo-tarefa');
 const campoPrazo = document.getElementById('campo-prazo');
+const campoDificuldade = document.getElementById('campo-dificuldade');
+const ROTULOS_DIFICULDADE = { facil: 'Fácil', media: 'Média', dificil: 'Difícil' };
 const botaoAdicionar = document.getElementById('botao-adicionar');
 const listaTarefas = document.getElementById('lista-tarefas');
 const contadorTarefas = document.getElementById('contador-tarefas');
@@ -15,7 +17,7 @@ const avisoTexto = document.getElementById('aviso-texto');
 const botaoDesfazer = document.getElementById('botao-desfazer');
 
 // ===== Estado da aplicação =====
-// Cada tarefa: { id, texto, concluida, prazo }  (prazo = 'AAAA-MM-DD' ou null)
+// Cada tarefa: { id, texto, concluida, prazo, dificuldade }  (prazo = 'AAAA-MM-DD' ou null)
 let tarefas = [];
 let filtroAtual = 'todas';   // todas | pendentes | concluidas
 let ultimaExcluida = null;   // { tarefa, indice } para o "Desfazer"
@@ -35,7 +37,7 @@ function carregarTarefas() {
         const salvas = JSON.parse(localStorage.getItem('tarefas'));
         if (Array.isArray(salvas)) {
             // Tarefas antigas (sem prazo) continuam funcionando
-            tarefas = salvas.map(t => ({ ...t, prazo: t.prazo || null }));
+            tarefas = salvas.map(t => ({ ...t, prazo: t.prazo || null, dificuldade: t.dificuldade || null }));
         }
     } catch (erro) {
         tarefas = [];
@@ -136,6 +138,13 @@ function criarItem(tarefa) {
     texto.tabIndex = 0;
     texto.setAttribute('role', 'button');
     info.appendChild(texto);
+
+    if (tarefa.dificuldade) {
+        const dif = document.createElement('small');
+        dif.className = 'dificuldade-tarefa dif-' + tarefa.dificuldade;
+        dif.textContent = ROTULOS_DIFICULDADE[tarefa.dificuldade];
+        info.appendChild(dif);
+    }
 
     if (tarefa.prazo) {
         const situacao = situacaoPrazo(tarefa);
@@ -263,9 +272,11 @@ function adicionarTarefa() {
         return;
     }
 
-    tarefas.push({ id: Date.now(), texto, concluida: false, prazo });
+    tarefas.push({ id: Date.now(), texto, concluida: false, prazo, dificuldade: campoDificuldade.value });
     campoTarefa.value = '';
     campoPrazo.value = '';
+    campoDificuldade.value = 'media';
+    pintarSeletor();
     limparErro();
     salvarTarefas();
     renderizar();
@@ -356,6 +367,18 @@ listaTarefas.addEventListener('keydown', evento => {
         alternarConclusao(Number(span.closest('.item-tarefa').dataset.id));
     }
 });
+
+// Modal de novidades (<dialog> nativo: Esc e foco já funcionam)
+const modalNovidades = document.getElementById('modal-novidades');
+document.getElementById('botao-novidades').addEventListener('click', () => modalNovidades.showModal());
+document.getElementById('botao-fechar-novidades').addEventListener('click', () => modalNovidades.close());
+modalNovidades.addEventListener('click', e => { if (e.target === modalNovidades) modalNovidades.close(); }); // clique no fundo fecha
+
+// O seletor ganha o degradê da dificuldade escolhida (muda com o tema)
+function pintarSeletor() {
+    campoDificuldade.className = 'dif-' + campoDificuldade.value;
+}
+campoDificuldade.addEventListener('change', pintarSeletor);
 
 // ===== Inicialização =====
 carregarTema();
